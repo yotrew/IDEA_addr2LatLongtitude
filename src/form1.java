@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 import java.util.stream.Collectors;
-import org.json.*;//要先到https://github.com/douglascrockford/JSON-java下載
+
 
 public class form1 {
     private JButton btn_Ok;
@@ -28,6 +28,7 @@ public class form1 {
         String urlstr;
         String urlData="";
         String lat,lng;
+        
         String APIKey="Google Maps API Key";
         try{
             String inputLine;
