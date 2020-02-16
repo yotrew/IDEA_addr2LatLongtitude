@@ -28,7 +28,7 @@ public class form1 {
         String urlstr;
         String urlData="";
         String lat,lng;
-        
+
         String APIKey="Google Maps API Key";
         try{
             String inputLine;
