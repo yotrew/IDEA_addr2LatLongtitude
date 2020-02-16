@@ -23,29 +23,29 @@ public class form1 {
     private static JFrame frame;
 
     //查詢速度非常慢,建議便用thread...It it about 3 records/sec
-    public static String AddrToLatLongtitude() throws MalformedURLException, IOException {
+    public static String AddrToLatLongtitude() throws IOException {
         String line;
         String urlstr;
         String urlData="";
         String lat,lng;
-
+        
         String APIKey="Google Maps API Key";
         try{
             String inputLine;
             //https://stackoverflow.com/questions/26949985/reading-files-with-intellij-idea-ide/35996794
-            BufferedReader in = new BufferedReader(new InputStreamReader( new FileInputStream("addr.txt"),"UTF-8"));
+            BufferedReader in = new BufferedReader(new InputStreamReader( new FileInputStream("addr.txt"), StandardCharsets.UTF_8));
 
             FileWriter fw = new FileWriter("addr2LatLong.txt");
             int count=0;
 
             while((line = in.readLine()) != null) {
-                urlstr="https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address="+java.net.URLEncoder.encode(line,"UTF-8")+"&key="+APIKey;
+                urlstr="https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address="+java.net.URLEncoder.encode(line, StandardCharsets.UTF_8)+"&key="+APIKey;
                 //urlstr="https://maps.google.com/maps/geo?q="+java.net.URLEncoder.encode(line,"UTF-8")+"&output=json&oe=utf8&sensor=false&key="+APIKey;
                 URL mapsurl=new URL(urlstr);
                 //System.out.println(urlstr);
 
                 URLConnection conn = mapsurl.openConnection();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8));
 
                 int linecount=0;
                 lat="";
