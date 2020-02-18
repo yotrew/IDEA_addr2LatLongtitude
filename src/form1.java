@@ -14,7 +14,7 @@ import java.security.cert.X509Certificate;
 import java.util.stream.Collectors;
 
 
-public class form1 {
+public class form1{
     private JButton btn_Ok;
     private JButton btn_Close;
     private JTextField textField1;
@@ -23,12 +23,12 @@ public class form1 {
     private static JFrame frame;
 
     //查詢速度非常慢,建議便用thread...It it about 3 records/sec
-    public static String AddrToLatLongtitude() throws IOException {
+    public String AddrToLatLongtitude() throws IOException {
         String line;
         String urlstr;
         String urlData="";
         String lat,lng;
-        
+
         String APIKey="Google Maps API Key";
         try{
             String inputLine;
@@ -75,8 +75,10 @@ public class form1 {
                 urlData+=line+","+lat+lng+"\r\n";
                 fw.write(line+","+lat+lng+"\r\n");
                 fw.flush();
-                if(count%100==0)
-                    System.out.println((count+1)+"");
+                if(count%10==0) {
+                    textArea1.setText(textArea1.getText()+"\n"+count);
+                    //System.out.println((count+1)+"");
+                }
                 count++;
             }
             in.close();
@@ -92,12 +94,17 @@ public class form1 {
         btn_Ok.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                 textArea1.setText("");
-                try {
-                    textArea1.setText(form1.AddrToLatLongtitude());
-                } catch (Exception e) {
-                }
-                textField1.setText("你下按鈕了!!!");
+                Thread thread1 = new Thread(new Runnable() {
+                    public void run(){
+                        textField1.setText("你下按鈕了!!!");
+                        textArea1.setText("開始地址經緯度轉換,請稍候...");
+                        try {
+                            textArea1.setText(AddrToLatLongtitude());
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+                thread1.start();
             }
         });
         btn_Close.addActionListener(new ActionListener() {
@@ -108,14 +115,8 @@ public class form1 {
             }
         });
     }
-
-
-    public static void test() {
-        System.out.print("test");
-    }
-
     public static void main(String[] args) {
-        frame = new JFrame("form1");
+        frame = new JFrame("Convert address to latitude and longitude ");
         frame.setContentPane(new form1().Panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
